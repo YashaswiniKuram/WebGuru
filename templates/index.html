@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Website Summarizer and Q&A</title>
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f7f8fa;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            color: #2C3E50;
+            margin-top: 40px;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"] {
+            padding: 12px;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+
+        button {
+            padding: 12px;
+            font-size: 1.1rem;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        h2 {
+            color: #34495e;
+            margin-top: 20px;
+        }
+
+        .summary, .answer {
+            background-color: #ecf0f1;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .summary p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            overflow: auto;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .download-button {
+            display: inline-block;
+            margin-top: 20px;
+            text-decoration: none;
+        }
+
+        .download-button button {
+            background-color: #27ae60;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            align-items: center;
+        }
+
+        .download-button button:hover {
+            background-color: #2ecc71;
+        }
+
+        .answer p {
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .answer a {
+            color: #3498db;
+            text-decoration: none;
+        }
+
+        .answer a:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            font-size: 1rem;
+            color: #7f8c8d;
+        }
+
+        footer a {
+            color: #3498db;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                width: 95%;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            button, input[type="text"] {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Website Summarizer and Q&A</h1>
+
+    <div class="container">
+        <!-- URL Submission Form -->
+        <form action="/" method="POST">
+            <label for="url">Enter URL to Scrape:</label>
+            <input type="text" id="url" name="url" required>
+            <button type="submit">Generate Summary</button>
+        </form>
+
+        <!-- Display Summary and Website Structure Image -->
+        {% if summary %}
+            <div class="summary">
+                <h2>Summary:</h2>
+                <p>{{ summary }}</p>
+            </div>
+            <div class="download-button">
+                <a href="{{ url_for('download_summary') }}">
+                    <button>Download Summary</button>
+                </a>
+            </div>
+
+            <h2>Website Structure</h2>
+            <a href="{{ url_for('static', filename='website_structure.png') }}"><img src="{{ url_for('static', filename='website_structure.png') }}" alt="Website Structure"></a>
+        {% endif %}
+
+        <!-- Q&A Form -->
+        {% if summary %}
+            <div class="qa-form">
+                <h2>Ask a Question about the Content</h2>
+                <form action="/" method="POST">
+                    <label for="question">Question:</label>
+                    <input type="text" id="question" name="question" required>
+                    <button type="submit">Get Answer</button>
+                </form>
+            </div>
+        {% endif %}
+
+        <!-- Display Answer -->
+        {% if answer %}
+            <div class="answer">
+                <h2>Answer:</h2>
+                <p>{{ answer }}</p>
+                <p><strong>Source URL:</strong> <a href="{{ source_url }}">{{ source_url }}</a></p>
+            </div>
+        {% endif %}
+    </div>
+
+    <footer>
+        <p>Created with ❤️ by <a href="#">Team Sorting</a></p>
+    </footer>
+</body>
+</html>
