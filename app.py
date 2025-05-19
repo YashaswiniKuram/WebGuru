@@ -87,7 +87,7 @@ def generate_summary(web_content):
     """Summarize content using Google Gemini model."""
     structured_prompt = ("""You are a website summarizer. Provide a summary of the following content within 300-500 words:\n\n""" f"Here is the content:\n\n{web_content}")
     try:
-        model = genai.GenerativeModel("gemini-1.5-pro")
+        model = genai.GenerativeModel("gemini-2.5-flash")
         response = model.generate_content(structured_prompt)
         return response.text
     except Exception as e:
